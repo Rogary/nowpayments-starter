@@ -1,66 +1,66 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+此文件为 Claude Code (claude.ai/code) 在本仓库中工作时提供指导。
 
-## Project Overview
+## 项目概述
 
-Spring Boot Starter wrapping the NOWPayments crypto payment API. GAV: `com.x3:nowpayments-spring-boot-starter:1.0.0`. Java 11, Spring Boot 2.7.18, OkHttp3 for HTTP, FastJSON2 for JSON serialization.
+封装 NOWPayments 加密货币支付 API 的 Spring Boot Starter。GAV: `com.x3:nowpayments-spring-boot-starter:1.0.0`。Java 11，Spring Boot 2.7.18，OkHttp3 发送 HTTP 请求，FastJSON2 处理 JSON 序列化。
 
-## Build
+## 构建
 
 ```bash
 mvn clean install
 ```
 
-No test infrastructure exists in this project.
+本项目暂无测试基础设施。
 
-## Architecture
+## 架构
 
-### Auto-Configuration & Activation
+### 自动配置与激活
 
-`NowPaymentsAutoConfiguration` is the entry point, registered via both `spring.factories` (Boot 2.x) and `AutoConfiguration.imports` (Boot 3.x).
+`NowPaymentsAutoConfiguration` 是入口，通过 `spring.factories`（Boot 2.x）和 `AutoConfiguration.imports`（Boot 3.x）双重注册。
 
-- **Activation gate**: `nowpayments.api-key` must be set — without it, no beans are created
-- **IPN callbacks**: require `nowpayments.ipn-secret` to be set AND the consuming application to provide a `NowPaymentsCallbackHandler` bean
-- All beans use `@ConditionalOnMissingBean` — consumers can override any component
+- **激活开关**：必须设置 `nowpayments.api-key`，否则不会创建任何 Bean
+- **IPN 回调**：需要设置 `nowpayments.ipn-secret`，并且消费方应用需提供 `NowPaymentsCallbackHandler` Bean
+- 所有 Bean 均使用 `@ConditionalOnMissingBean`，消费方可覆盖任意组件
 
-### Bean Wiring Chain
+### Bean 装配链
 
 ```
-api-key set?
-  └─ NowPaymentsClient (always created)
-  └─ ipn-secret set?
-       └─ SignatureVerifier (HMAC-SHA512)
-       └─ NowPaymentsCallbackHandler bean exists? (provided by consumer)
-            └─ NowPaymentsCallbackController (POST endpoint at ${nowpayments.callback-path})
+api-key 已设置？
+  └─ NowPaymentsClient（始终创建）
+  └─ ipn-secret 已设置？
+       └─ SignatureVerifier（HMAC-SHA512）
+       └─ NowPaymentsCallbackHandler Bean 存在？（由消费方提供）
+            └─ NowPaymentsCallbackController（POST 端点，路径为 ${nowpayments.callback-path}）
 ```
 
-### Package Layout
+### 包结构
 
-- `client/` — `NowPaymentsClient`: all REST API calls (status, currencies, min-amount, estimate, invoice, payment, payment-status)
-- `callback/` — IPN webhook handling: `SignatureVerifier` (HMAC-SHA512), `NowPaymentsCallbackHandler` (interface consumers implement), `NowPaymentsCallbackController` (auto-registered endpoint)
-- `dto/` — Request/response POJOs for each API endpoint
-- `exception/` — `NowPaymentsException` with optional HTTP status code
+- `client/` — `NowPaymentsClient`：所有 REST API 调用（状态、币种、最小金额、估价、发票、支付、支付状态查询）
+- `callback/` — IPN Webhook 处理：`SignatureVerifier`（HMAC-SHA512）、`NowPaymentsCallbackHandler`（消费方实现的接口）、`NowPaymentsCallbackController`（自动注册的端点）
+- `dto/` — 各 API 端点的请求/响应 POJO
+- `exception/` — `NowPaymentsException`，包含可选的 HTTP 状态码
 
-### Key Design Decisions
+### 关键设计决策
 
-- `NowPaymentsClient` auto-fills `ipnCallbackUrl`, `successUrl`, and `cancelUrl` from properties if not set on individual requests — check `createInvoice()` and `createPayment()` methods
-- The IPN callback endpoint path is configurable via SpEL: `${nowpayments.callback-path:/nowpayments/ipn}`
-- `NowPaymentsCallbackHandler` is an interface (not provided by the starter) — the consuming application **must** implement and register it as a bean for the callback controller to activate
-- Signature verification uses sorted JSON keys for HMAC computation (NOWPayments IPN spec)
+- `NowPaymentsClient` 在请求未设置时，自动从配置属性中填充 `ipnCallbackUrl`、`successUrl` 和 `cancelUrl` —— 参见 `createInvoice()` 和 `createPayment()` 方法
+- IPN 回调端点路径通过 SpEL 配置：`${nowpayments.callback-path:/nowpayments/ipn}`
+- `NowPaymentsCallbackHandler` 是一个接口（Starter 本身不提供实现）—— 消费方**必须**实现并注册为 Bean，回调控制器才会激活
+- 签名验证按 JSON 键排序后计算 HMAC（遵循 NOWPayments IPN 规范）
 
-## Configuration Properties
+## 配置属性
 
-All under prefix `nowpayments.*`:
+所有属性前缀为 `nowpayments.*`：
 
-| Property | Required | Default |
+| 属性 | 必填 | 默认值 |
 |---|---|---|
-| `api-key` | Yes (activation gate) | — |
-| `ipn-secret` | For IPN callbacks | — |
-| `base-url` | No | `https://api.nowpayments.io` |
-| `callback-path` | No | `/nowpayments/ipn` |
-| `success-url` | No | — |
-| `cancel-url` | No | — |
-| `ipn-callback-url` | No | — |
-| `connect-timeout` | No | 10s |
-| `read-timeout` | No | 20s |
+| `api-key` | 是（激活开关） | — |
+| `ipn-secret` | IPN 回调时需要 | — |
+| `base-url` | 否 | `https://api.nowpayments.io` |
+| `callback-path` | 否 | `/nowpayments/ipn` |
+| `success-url` | 否 | — |
+| `cancel-url` | 否 | — |
+| `ipn-callback-url` | 否 | — |
+| `connect-timeout` | 否 | 10s |
+| `read-timeout` | 否 | 20s |
