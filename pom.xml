@@ -13,7 +13,7 @@
 
     <groupId>com.gary</groupId>
     <artifactId>nowpayments-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>nowpayments-spring-boot-starter</name>
@@ -68,6 +68,11 @@
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/Rogary/nowpayments-starter</url>
         </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/Rogary/nowpayments-starter</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
