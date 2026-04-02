@@ -1,9 +1,9 @@
-package com.x3.nowpayments;
+package com.gary.nowpayments;
 
-import com.x3.nowpayments.callback.NowPaymentsCallbackController;
-import com.x3.nowpayments.callback.NowPaymentsCallbackHandler;
-import com.x3.nowpayments.callback.SignatureVerifier;
-import com.x3.nowpayments.client.NowPaymentsClient;
+import com.gary.nowpayments.callback.NowPaymentsCallbackController;
+import com.gary.nowpayments.callback.NowPaymentsCallbackHandler;
+import com.gary.nowpayments.callback.SignatureVerifier;
+import com.gary.nowpayments.client.NowPaymentsClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

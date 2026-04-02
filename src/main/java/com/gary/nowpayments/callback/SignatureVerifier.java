@@ -1,4 +1,4 @@
-package com.x3.nowpayments.callback;
+package com.gary.nowpayments.callback;
 
 import lombok.extern.slf4j.Slf4j;
 import javax.crypto.Mac;

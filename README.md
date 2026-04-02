@@ -20,7 +20,7 @@
 
 ```xml
 <dependency>
-    <groupId>com.x3</groupId>
+    <groupId>com.gary</groupId>
     <artifactId>nowpayments-spring-boot-starter</artifactId>
     <version>1.0.0</version>
 </dependency>

@@ -1,4 +1,4 @@
-package com.x3.nowpayments.exception;
+package com.gary.nowpayments.exception;
 
 import lombok.Getter;
 

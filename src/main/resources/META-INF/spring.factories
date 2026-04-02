@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.x3.nowpayments.NowPaymentsAutoConfiguration
+com.gary.nowpayments.NowPaymentsAutoConfiguration

@@ -1,9 +1,9 @@
-package com.x3.nowpayments.client;
+package com.gary.nowpayments.client;
 
 import com.alibaba.fastjson2.JSON;
-import com.x3.nowpayments.NowPaymentsProperties;
-import com.x3.nowpayments.dto.*;
-import com.x3.nowpayments.exception.NowPaymentsException;
+import com.gary.nowpayments.NowPaymentsProperties;
+import com.gary.nowpayments.dto.*;
+import com.gary.nowpayments.exception.NowPaymentsException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 

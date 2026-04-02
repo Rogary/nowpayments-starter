@@ -1,4 +1,4 @@
-package com.x3.nowpayments;
+package com.gary.nowpayments;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

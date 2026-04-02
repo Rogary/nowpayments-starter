@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-封装 NOWPayments 加密货币支付 API 的 Spring Boot Starter。GAV: `com.x3:nowpayments-spring-boot-starter:1.0.0`。Java 11，Spring Boot 2.7.18，OkHttp3 发送 HTTP 请求，FastJSON2 处理 JSON 序列化。
+封装 NOWPayments 加密货币支付 API 的 Spring Boot Starter。GAV: `com.gary:nowpayments-spring-boot-starter:1.0.0`。Java 11，Spring Boot 2.7.18，OkHttp3 发送 HTTP 请求，FastJSON2 处理 JSON 序列化。
 
 ## 构建
 

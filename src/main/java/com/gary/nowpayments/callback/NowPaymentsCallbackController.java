@@ -1,7 +1,7 @@
-package com.x3.nowpayments.callback;
+package com.gary.nowpayments.callback;
 
 import com.alibaba.fastjson2.JSON;
-import com.x3.nowpayments.dto.PaymentStatusResponse;
+import com.gary.nowpayments.dto.PaymentStatusResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
